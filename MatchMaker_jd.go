@@ -54,27 +54,33 @@ func printIntro() {
 }
 
 func getInput(prompt string) int {
-	var isValid = false
 	var numInput = 0
 	var strInput = ""
+	var err error = nil
 
-	for !isValid {
+	for !validate(numInput, err) {
 		fmt.Print(prompt)
 		fmt.Scanln(&strInput)
-		num, err := strconv.Atoi(strInput)
-		if err != nil {
-			fmt.Println("Please enter a number 1-5")
-
-		} else if num < 1 || num > 5 {
-			fmt.Println("Please enter 1-5.")
-
-		} else {
-			numInput = num
-			isValid = true
-		}
+		numInput, err = strconv.Atoi(strInput)
+		fmt.Println("")
 	}
+
 	fmt.Println()
 	return numInput
+}
+
+func validate(num int, err error) bool {
+	if err != nil {
+		fmt.Println("Please enter a number 1-5")
+
+	} else if num < 1 || num > 5 {
+		fmt.Println("Please enter 1-5.")
+
+	} else {
+		return true
+	}
+
+	return false
 }
 
 // adjusted method of determining final score, max score = 100%, min score = 5%
